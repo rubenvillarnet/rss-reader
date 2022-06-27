@@ -6,14 +6,25 @@ import StyledHome from "./Home.styled";
 import ListItem from "components/atoms/ListItem/ListItem";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
 import { addFeed } from "redux/feedSlice";
+import Search from "components/atoms/Search/Search";
 
 const url = DEFAULT_FEED;
 
 export default function Home() {
+  const [filteredItems, setFilteredItems] = useState<Item[] | null>(null);
   const feed = useAppSelector((state) => state.feed);
   const { channel, items } = feed || {};
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleSearch = (query: string | null) => {
+    if (query) {
+      const filteredResult = items?.filter((item) => item.title?.toLowerCase().includes(query.toLowerCase()));
+      setFilteredItems(filteredResult || null);
+    } else {
+      setFilteredItems(items);
+    }
+  };
 
   useEffect(() => {
     const fetchFeedData = async () => {
@@ -21,6 +32,7 @@ export default function Home() {
       try {
         const response = await getFeed(url);
         dispatch(addFeed(response));
+        setFilteredItems(response.items);
       } catch (error) {
         // TODO: error handling in front
         console.log(error);
@@ -50,12 +62,17 @@ export default function Home() {
               ) : (
                 channel?.title
               )}{" "}
-              <span className="items-count">{items?.length} items</span>
+              <span className="items-count">{filteredItems?.length} items</span>
             </h2>
 
             <p>{channel?.description}</p>
           </div>
-          {items ? items.map((item: Item) => <ListItem key={item.uuid} item={item} />) : <p>There are no items</p>}
+          {items?.length ? <Search handleSearch={handleSearch} /> : null}
+          {filteredItems && filteredItems.length ? (
+            filteredItems.map((item: Item) => <ListItem key={item.uuid} item={item} />)
+          ) : (
+            <p>There are no items</p>
+          )}
         </>
       )}
     </StyledHome>
