@@ -28,7 +28,10 @@ export default function Home() {
         setIsLoading(false);
       }
     };
-    fetchFeedData();
+    if (!channel) {
+      fetchFeedData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
