@@ -1,13 +1,15 @@
 import { Item } from "interfaces/feed";
 import StyledListItem from "./ListItem.style";
 import { Link } from "react-router-dom";
+import { showDate } from "utils/dates";
 
 interface ListItemProps {
   item: Item;
 }
 
 export default function ListItem({ item }: ListItemProps) {
-  const { title, description, uuid, image, link } = item;
+  const { title, description, uuid, image, link, author, pubDate } = item;
+
   return (
     <StyledListItem>
       <div className="content">
@@ -22,6 +24,7 @@ export default function ListItem({ item }: ListItemProps) {
             )}
           </h3>
         ) : null}
+
         {description ? <p className="article-description">{description}</p> : null}
         <Link to={`/${uuid}`} className="detail-link">
           More

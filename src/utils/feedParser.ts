@@ -20,6 +20,7 @@ export const feedParser = (feedResponse: GetfeedResponse): Feed => {
         title: item.title,
         link: item.link,
         author: item.author,
+        pubDate: item.pubDate,
         fullDescription: item.description,
         isHTML
       };

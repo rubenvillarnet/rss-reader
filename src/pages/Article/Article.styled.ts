@@ -8,6 +8,16 @@ const StyledArticle = styled.div`
       color: inherit;
     }
   }
+  .metadata {
+    display: flex;
+    justify-content: space-between;
+    .author {
+      font-weight: ${({ theme }) => theme.weight.medium};
+    }
+    .date {
+      font-weight: ${({ theme }) => theme.weight.light};
+    }
+  }
 `;
 
 export default StyledArticle;
