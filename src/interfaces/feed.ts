@@ -12,11 +12,13 @@ export interface Item {
   };
 }
 
+export interface Channel {
+  title: string;
+  link: string;
+  description: string;
+}
+
 export interface Feed {
-  channel: {
-    title: string;
-    link: string;
-    description: string;
-  };
+  channel: Channel;
   items: Item[];
 }
