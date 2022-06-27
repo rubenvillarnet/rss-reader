@@ -7,6 +7,7 @@ const theme: DefaultTheme = {
     background: "#FFFFFF"
   },
   fonts: {
+    xxl: "2rem",
     xl: "1.5rem",
     l: "1.125rem",
     m: "1rem"

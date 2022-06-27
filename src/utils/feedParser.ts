@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { Feed, Item } from "interfaces/feed";
 import { GetfeedResponse } from "interfaces/services";
 
@@ -14,6 +16,7 @@ export const feedParser = (feedResponse: GetfeedResponse): Feed => {
       const parsedDescription = parser.parseFromString(item.description, "text/html");
       const isHTML = Array.from(parsedDescription.body.childNodes).some((node) => node.nodeType === 1);
       const parsedItem: Item = {
+        uuid: uuidv4(),
         title: item.title,
         link: item.link,
         author: item.author,
