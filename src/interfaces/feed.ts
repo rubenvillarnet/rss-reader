@@ -1,4 +1,5 @@
 export interface Item {
+  uuid: string;
   title?: string;
   link?: string;
   author?: string;
