@@ -13,7 +13,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 3. **Create the tasks and work with them**: in this case, I have created a [project on Github](https://github.com/rubenvillarnet/rss-reader/projects/1). I will try to create issues and Pull Requests in order to make it similar to a real workflow. I will use **Gitflow** to organize my code, but for the sake of simplicity, all my branches will be merged directly in *main*.
 
 ![me accepting my own PRs](https://i.kym-cdn.com/entries/icons/original/000/030/329/cover1.jpg "Me accepting my own PRs")
-Me approving my own Pull Requests.
+*Me approving my own Pull Requests.*
 
 ## Technical decisions
 
