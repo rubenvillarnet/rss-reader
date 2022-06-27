@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
 const StyledHome = styled.div`
-  h1 {
-    color: ${({ theme }) => theme.colors.secondary};
-    font-size: ${({ theme }) => theme.fonts.xxl};
-    font-weight: ${({ theme }) => theme.weight.bold};
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h1 {
+      color: ${({ theme }) => theme.colors.secondary};
+      font-size: ${({ theme }) => theme.fonts.xxl};
+      font-weight: ${({ theme }) => theme.weight.bold};
+    }
   }
   .feed-info {
     position: relative;

@@ -7,6 +7,7 @@ import ListItem from "components/atoms/ListItem/ListItem";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
 import { addFeed } from "redux/feedSlice";
 import Search from "components/atoms/Search/Search";
+import FeedUpdater from "components/molecules/FeedUpdater/FeedUpdater";
 
 const url = DEFAULT_FEED;
 
@@ -50,7 +51,10 @@ export default function Home() {
 
   return (
     <StyledHome>
-      <h1>RSSly</h1>
+      <div className="top">
+        <h1>RSSly</h1>
+        <FeedUpdater />
+      </div>
       {isLoading ? (
         <p>Fetching data...</p>
       ) : (

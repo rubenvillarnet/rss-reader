@@ -26,14 +26,6 @@ const StyledSearch = styled.form`
       cursor: pointer;
     }
   }
-  button {
-    background-color: ${({ theme }) => theme.colors.primary};
-    border: none;
-    color: ${({ theme }) => theme.colors.background};
-    border-radius: 0.5rem;
-    padding: 0 1rem;
-    cursor: pointer;
-  }
 `;
 
 export default StyledSearch;

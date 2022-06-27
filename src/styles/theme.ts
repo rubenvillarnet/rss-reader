@@ -4,7 +4,8 @@ const theme: DefaultTheme = {
   colors: {
     primary: "#666666",
     secondary: "#FAB824",
-    background: "#FFFFFF"
+    background: "#FFFFFF",
+    danger: "#D34646"
   },
   fonts: {
     xxl: "2rem",

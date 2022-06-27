@@ -2,6 +2,7 @@ import StyledSearch from "./Search.styled";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
+import Button from "../Button/Button";
 
 type Inputs = {
   searchQuery: string;
@@ -29,8 +30,6 @@ export default function Search({ handleSearch }: SearchProps) {
     handleSearch(null);
   };
 
-  console.log(watch("searchQuery"));
-
   return (
     <StyledSearch onSubmit={handleSubmit(onSubmit)}>
       <div className="input-container">
@@ -38,7 +37,7 @@ export default function Search({ handleSearch }: SearchProps) {
         <FaSearch className="search" />
         {watch("searchQuery") && <FaTimes className="clear" onClick={clearSearch} />}
       </div>
-      <button type="submit">Search</button>
+      <Button type="submit">Search</Button>
       {errors.searchQuery && <span>This field is required</span>}
     </StyledSearch>
   );
