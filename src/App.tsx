@@ -4,6 +4,10 @@ import dompurify from "dompurify";
 import { DEFAULT_FEED } from "constants/services";
 import { Feed, Item } from "interfaces/feed";
 import { getFeed } from "services/feed";
+import { ThemeProvider } from "styled-components";
+import theme from "styles/theme";
+import GlobalStyle from "styles/GlobalStyle";
+import Layout from "components/atoms/Layout/Layout";
 
 const url = DEFAULT_FEED;
 
@@ -47,34 +51,39 @@ function App() {
     fetchFeedData();
   }, []);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              <h1>RSS Reader</h1>
-              {isLoading ? (
-                <p>Loading...</p>
-              ) : feed?.items ? (
-                feed.items.map((item: Item, idx: number) => (
-                  <article key={`article-${idx}`}>
-                    {item.title ? <h3>{item.title}</h3> : null}
-                    {item.description ? <p>{item.description}</p> : null}
-                    {item.image ? <img src={item.image.src} alt={item.image.alt} /> : null}
-                    <br />
-                    <Link to={`/${idx}`}>Details</Link>
-                  </article>
-                ))
-              ) : (
-                <p>There are no items</p>
-              )}
-            </div>
-          }
-        />
-        <Route path=":id" element={<Detail feed={feed} />} />
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div>
+                  <h1>RSS Reader</h1>
+                  {isLoading ? (
+                    <p>Loading...</p>
+                  ) : feed?.items ? (
+                    feed.items.map((item: Item, idx: number) => (
+                      <article key={`article-${idx}`}>
+                        {item.title ? <h3>{item.title}</h3> : null}
+                        {item.description ? <p>{item.description}</p> : null}
+                        {item.image ? <img src={item.image.src} alt={item.image.alt} /> : null}
+                        <br />
+                        <Link to={`/${idx}`}>Details</Link>
+                      </article>
+                    ))
+                  ) : (
+                    <p>There are no items</p>
+                  )}
+                </div>
+              }
+            />
+            <Route path=":id" element={<Detail feed={feed} />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
