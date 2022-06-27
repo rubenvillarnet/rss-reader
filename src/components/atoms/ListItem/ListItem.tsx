@@ -24,7 +24,10 @@ export default function ListItem({ item }: ListItemProps) {
             )}
           </h3>
         ) : null}
-
+        <div className="metadata">
+          {author ? <p className="author">By {author}</p> : null}
+          {pubDate ? <p className="date">{showDate(pubDate)}</p> : null}
+        </div>
         {description ? <p className="article-description">{description}</p> : null}
         <Link to={`/${uuid}`} className="detail-link">
           More

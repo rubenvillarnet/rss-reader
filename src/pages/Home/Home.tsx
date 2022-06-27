@@ -40,8 +40,10 @@ export default function Home() {
         setIsLoading(false);
       }
     };
-    if (!channel) {
+    if (!items) {
       fetchFeedData();
+    } else {
+      setFilteredItems(items);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
