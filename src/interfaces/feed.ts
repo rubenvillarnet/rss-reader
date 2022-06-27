@@ -3,6 +3,7 @@ export interface Item {
   title?: string;
   link?: string;
   author?: string;
+  pubDate?: string;
   fullDescription?: string;
   isHTML?: boolean;
   description?: string;

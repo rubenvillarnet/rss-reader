@@ -15,6 +15,16 @@ const StyledListItem = styled.article`
       color: inherit;
     }
   }
+  .metadata {
+    display: flex;
+    justify-content: space-between;
+    .author {
+      font-weight: ${({ theme }) => theme.weight.medium};
+    }
+    .date {
+      font-weight: ${({ theme }) => theme.weight.light};
+    }
+  }
   .article-description {
     display: -webkit-box;
     -webkit-line-clamp: 2;
