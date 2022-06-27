@@ -1,78 +1,50 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/prop-types */
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useParams, Link } from "react-router-dom";
 import dompurify from "dompurify";
+import { DEFAULT_FEED } from "constants/services";
+import { Feed, Item } from "interfaces/feed";
+import { getFeed } from "services/feed";
 
-const rssParser = "https://api.rss2json.com/v1/api.json?rss_url=";
-const url = "https://www.xatakandroid.com/tag/feeds/rss2.xml";
+const url = DEFAULT_FEED;
 
-const Detail = ({ feed }: any) => {
+interface DetailProps {
+  feed: Feed | null;
+}
+
+const Detail = ({ feed }: DetailProps) => {
   const { id } = useParams();
-  const item = id ? feed?.items[id] : null;
+  const item = id ? feed?.items[parseInt(id)] : {};
   return (
     <div>
       <h3>{item?.title}</h3>
       <Link to="/">Back</Link>
-      {item.isHTML ? (
+      {item?.isHTML && item?.fullDescription ? (
         <div dangerouslySetInnerHTML={{ __html: dompurify.sanitize(item.fullDescription) }} />
       ) : (
-        <p>{item.fullDescription}</p>
+        <p>{item?.fullDescription}</p>
       )}
     </div>
   );
 };
 
 function App() {
-  const [feed, setFeed] = useState<any>(null);
+  const [feed, setFeed] = useState<Feed | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    axios.get(rssParser + url).then((response) => {
-      const { feed, items } = response.data;
-      const parser = new DOMParser();
-      const parsedFeed = {
-        channel: {
-          title: feed.title,
-          link: feed.link,
-          description: feed.description
-        },
-        items: items.map((item: any) => {
-          const parsedDescription = parser.parseFromString(item.description, "text/html");
-          const isHTML = Array.from(parsedDescription.body.childNodes).some((node) => node.nodeType === 1);
-          const parsedItem: any = {
-            title: item.title,
-            link: item.link,
-            author: item.author,
-            fullDescription: item.description,
-            isHTML
-          };
-          if (isHTML) {
-            const paragraphs = parsedDescription.getElementsByTagName("p");
-            for (let i = 0; i < paragraphs.length; i++) {
-              const content = paragraphs[i].textContent;
-              if (typeof content === "string" && content.trim().length) {
-                parsedItem.description = content;
-                break;
-              }
-            }
-            const images = parsedDescription.images;
-            if (images.length) {
-              parsedItem.image = {
-                src: images[0].src,
-                alt: images[0].alt
-              };
-            }
-          } else {
-            parsedItem.description = item.description;
-          }
-
-          return parsedItem;
-        })
-      };
-      console.log(parsedFeed);
-      setFeed(parsedFeed);
-    });
+    const fetchFeedData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await getFeed(url);
+        setFeed(response);
+      } catch (error) {
+        // TODO: error handling in front
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchFeedData();
   }, []);
   return (
     <BrowserRouter>
@@ -82,8 +54,10 @@ function App() {
           element={
             <div>
               <h1>RSS Reader</h1>
-              {feed?.items ? (
-                feed.items.map((item: any, idx: any) => (
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : feed?.items ? (
+                feed.items.map((item: Item, idx: number) => (
                   <article key={`article-${idx}`}>
                     {item.title ? <h3>{item.title}</h3> : null}
                     {item.description ? <p>{item.description}</p> : null}
@@ -93,7 +67,7 @@ function App() {
                   </article>
                 ))
               ) : (
-                <p>Loading...</p>
+                <p>There are no items</p>
               )}
             </div>
           }
