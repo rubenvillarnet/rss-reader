@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -7,9 +8,9 @@ import dompurify from "dompurify";
 const rssParser = "https://api.rss2json.com/v1/api.json?rss_url=";
 const url = "https://www.xatakandroid.com/tag/feeds/rss2.xml";
 
-const Detail = ({ feed }) => {
-  const params = useParams();
-  const item = feed?.items[params.id];
+const Detail = ({ feed }: any) => {
+  const { id } = useParams();
+  const item = id ? feed?.items[id] : null;
   return (
     <div>
       <h3>{item?.title}</h3>
@@ -24,7 +25,7 @@ const Detail = ({ feed }) => {
 };
 
 function App() {
-  const [feed, setFeed] = useState(null);
+  const [feed, setFeed] = useState<any>(null);
 
   useEffect(() => {
     axios.get(rssParser + url).then((response) => {
@@ -36,10 +37,10 @@ function App() {
           link: feed.link,
           description: feed.description
         },
-        items: items.map((item) => {
+        items: items.map((item: any) => {
           const parsedDescription = parser.parseFromString(item.description, "text/html");
           const isHTML = Array.from(parsedDescription.body.childNodes).some((node) => node.nodeType === 1);
-          const parsedItem = {
+          const parsedItem: any = {
             title: item.title,
             link: item.link,
             author: item.author,
@@ -82,7 +83,7 @@ function App() {
             <div>
               <h1>RSS Reader</h1>
               {feed?.items ? (
-                feed.items.map((item, idx) => (
+                feed.items.map((item: any, idx: any) => (
                   <article key={`article-${idx}`}>
                     {item.title ? <h3>{item.title}</h3> : null}
                     {item.description ? <p>{item.description}</p> : null}
