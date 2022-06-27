@@ -32,6 +32,10 @@ Finally, I chose the last solution due to time constraints and the fact that it'
 
   [The RSS specification](https://validator.w3.org/feed/docs/rss2.html) doesn't define an element for the item image of a plain-text description. In fact, the vast majority of the feeds include HTML code in the description. So I created a basic logic that checks the description and, in the case that it is HTML code, gets the first paragraph's content and the first image URL. It's very basic but it seems to cover the most common causes.
 
+### Organizing the components
+
+I have organized the components by using [Atomic Design](https://atomicdesign.bradfrost.com/), although the number of components is not very high, it may be a bit overkill.
+
 ## Dependencies used
 
 - **axios**: I prefer Axios over fetch because it offers better error handling and automatic JSON conversion, among other features.
@@ -39,6 +43,21 @@ Finally, I chose the last solution due to time constraints and the fact that it'
 - **styled-components**: I like SCSS too, but I love how styled-components integrates with React.
 - **redux-toolkit**: Redux Toolkit reduces the necessary boilerplate and integrates some tools like thunks and Immer. As a possible con, it makes people that are not used to working with Redux learn the Toolkit APIs and workflow, in addition to Redux itself.
 - **react-hook-forms**: it makes life soooo much simplier when dealing with forms.
+
+## Work in progress
+
+I currently have not finished the [functionality that allows the user to change the feed](https://github.com/rubenvillarnet/rss-reader/issues/21), I hope to complete it as soon as possible.
+
+## Improvements
+
+There are several features and improvements that I have not been able to implement or finish due to time constraints like:
+
+- Allow changing the RSS feed URL (in progress).
+- Add *next* and *previous* buttons in the article detail.
+- Add testing.
+- Extract to components some elements that are very similar or repeated.
+- Improve the import order in each component.
+- Fetch the feed contents by an async thunk in Redux directly.
   
 ## Available Scripts
 
