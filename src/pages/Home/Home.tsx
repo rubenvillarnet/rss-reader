@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { DEFAULT_FEED } from "constants/services";
-import { Feed, Item } from "interfaces/feed";
+import { Item } from "interfaces/feed";
 import { getFeed } from "services/feed";
 import StyledHome from "./Home.styled";
 import ListItem from "components/atoms/ListItem/ListItem";
+import { useAppDispatch, useAppSelector } from "hooks/redux";
+import { addFeed } from "redux/feedSlice";
 
 const url = DEFAULT_FEED;
 
 export default function Home() {
-  const [feed, setFeed] = useState<Feed | null>(null);
+  const feed = useAppSelector((state) => state.feed);
+  const { channel, items } = feed || {};
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -16,7 +20,7 @@ export default function Home() {
       setIsLoading(true);
       try {
         const response = await getFeed(url);
-        setFeed(response);
+        dispatch(addFeed(response));
       } catch (error) {
         // TODO: error handling in front
         console.log(error);
@@ -36,23 +40,19 @@ export default function Home() {
         <>
           <div className="feed-info">
             <h2>
-              {feed?.channel.link ? (
-                <a href={feed?.channel.link} target="_blank" rel="noreferrer">
-                  {feed?.channel.title}
+              {channel?.link ? (
+                <a href={channel?.link} target="_blank" rel="noreferrer">
+                  {channel?.title}
                 </a>
               ) : (
-                feed?.channel.title
+                channel?.title
               )}{" "}
-              <span className="items-count">{feed?.items.length} items</span>
+              <span className="items-count">{items?.length} items</span>
             </h2>
 
-            <p>{feed?.channel.description}</p>
+            <p>{channel?.description}</p>
           </div>
-          {feed?.items ? (
-            feed.items.map((item: Item) => <ListItem key={item.uuid} item={item} />)
-          ) : (
-            <p>There are no items</p>
-          )}
+          {items ? items.map((item: Item) => <ListItem key={item.uuid} item={item} />) : <p>There are no items</p>}
         </>
       )}
     </StyledHome>
