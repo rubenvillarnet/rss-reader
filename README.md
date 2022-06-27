@@ -38,6 +38,7 @@ Finally, I chose the last solution due to time constraints and the fact that it'
 - **dompurify**: it sanitizes the HTML code present in the description.
 - **styled-components**: I like SCSS too, but I love how styled-components integrates with React.
 - **redux-toolkit**: Redux Toolkit reduces the necessary boilerplate and integrates some tools like thunks and Immer. As a possible con, it makes people that are not used to working with Redux learn the Toolkit APIs and workflow, in addition to Redux itself.
+- **react-hook-forms**: it makes life soooo much simplier when dealing with forms.
   
 ## Available Scripts
 
